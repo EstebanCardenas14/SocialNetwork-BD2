@@ -3,10 +3,9 @@ const cors = require('cors');
 const path = require('path');
 const logger = require('morgan');
 const colors = require('colors');
-const connection = require('./database/connection');
-
-class Server{
-    constructor(){
+require('dotenv').config()
+class Server {
+    constructor() {
         this.app = express();
         this.port = process.env.PORT || 3000;
         this.host = process.env.HOST || 'localhost';
@@ -14,22 +13,32 @@ class Server{
 
         this.middlewares();
         this.routes();
-}
+    }
 
-    middlewares(){
+    middlewares() {
         this.app.use(cors());
         this.app.use(express.json());
         this.app.use(logger('dev'));
-        this.app.use(express.urlencoded({extended: true}));
+        this.app.use(express.urlencoded({ extended: true }));
         this.app.use(express.static(path.join(__dirname, 'public')));
     }
 
-    routes(){
+    routes() {
+        this.app.use('/buyer', require('./src/routes/buyer.routes'));
+        this.app.use('/seller', require('./src/routes/seller.routes'));
+        this.app.use('/product', require('./src/routes/product.routes'));
     }
 
-    launch(){
+    launch() {
+       // Route default
+       this.app.use('/', (req, res, next) => {
+            res.status(200).json({
+                ok: true,
+                message: 'Página de inicio'
+            });
+        });
         this.server.listen(this.port, this.host, () => {
-            console.log(`Server running on ${this.host}:${this.port}`.green);
+            console.log(`Server running on ${this.host}:${this.port}`.magenta);
         });
     }
 
