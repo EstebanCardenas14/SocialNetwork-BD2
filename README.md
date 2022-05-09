@@ -11,3 +11,6 @@ Create a small social network for your eCommerce store using Neo4j and the progr
 
 ## Points Made in Postman
 [Postman](https://documenter.getpostman.com/view/19525246/UyxdLUwM).
+
+## Video Exposure
+[YouTube](https://youtu.be/WGl-ovpqWiA).
